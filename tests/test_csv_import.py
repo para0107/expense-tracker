@@ -1,6 +1,7 @@
 from httpx import AsyncClient
 
 from expense_tracker.api.paths import API_PREFIX
+from expense_tracker.exceptions.error_codes import AppErrorCode
 
 ACCOUNTS_URL = f"{API_PREFIX}/accounts"
 TRANSACTIONS_URL = f"{API_PREFIX}/transactions"
@@ -120,7 +121,12 @@ async def test_missing_mapped_column_is_bad_request(
     )
 
     assert response.status_code == 400
-    assert response.json()["code"] == "INVALID_CSV_MAPPING"
+    detail = AppErrorCode.INVALID_CSV_MAPPING.value
+    assert response.json() == {
+        "code": detail.code,
+        "status": detail.status,
+        "message": detail.message,
+    }
 
 
 async def test_oversized_file_is_rejected(logged_in_client: AsyncClient) -> None:

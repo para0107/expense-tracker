@@ -30,11 +30,7 @@ async def create_due_transactions_and_log_count(
 
 
 async def start_recurring_transaction_worker() -> None:
-    """
-    Book due transactions once, then again on every interval until stopped.
-
-    Stops the scheduler and disposes the engine on exit.
-    """
+    """Book due transactions now and on every interval, then stop and dispose."""
     settings = get_settings()
     setup_logging(settings.log)
     engine = setup_database_engine(settings.database)
