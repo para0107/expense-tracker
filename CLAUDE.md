@@ -35,3 +35,4 @@ Personal expense tracker API: FastAPI, async SQLAlchemy + asyncpg, PostgreSQL, A
 - tests/ is not a package: share constants through fixtures in conftest, never `from tests.conftest import ...`.
 - The ruff PostToolUse hook removes unused imports on each edit: when wiring a new router or provider, add the usage first and the import second.
 - The recurring worker runs as `uv run python -m expense_tracker.worker.main`, a separate process from the API; it books every missed occurrence from start_date on its first run, and ON CONFLICT (recurring_transaction_id, booked_on) makes reruns safe.
+- tests/test_migrations.py runs alembic check through the Alembic API, so drift between ORM models and migrations fails the test suite.
